@@ -1,0 +1,256 @@
+---
+title: "Modernamente Técnicos"
+author: "Ticiana Rodriguez"
+date: "`r Sys.Date()`"
+output:
+  rticles::arxiv_article: default
+  pdf_document: default
+  html_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Costos Operativos del Sistema
+
+| Servidor  | PC       | Impresora |
+|-----------|----------|-----------|
+| \$100000  | \$500000 | \$58000   |
+| \$1000000 | \$547065 | \$150000  |
+| \$856000  | \$958200 | \$40000   |
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+
+
+
+
+
+# Introduction
+
+Here goes an introduction text
+
+# Headings: first level
+\label{sec:headings}
+
+You can use directly LaTeX command or Markdown text. 
+
+LaTeX command can be used to reference other section. See Section \ref{sec:headings}.
+However, you can also use **bookdown** extensions mechanism for this.
+
+## Headings: second level
+
+You can use equation in blocks
+
+$$
+\xi _{ij}(t)=P(x_{t}=i,x_{t+1}=j|y,v,w;\theta)= {\frac {\alpha _{i}(t)a^{w_t}_{ij}\beta _{j}(t+1)b^{v_{t+1}}_{j}(y_{t+1})}{\sum _{i=1}^{N} \sum _{j=1}^{N} \alpha _{i}(t)a^{w_t}_{ij}\beta _{j}(t+1)b^{v_{t+1}}_{j}(y_{t+1})}}
+$$
+
+But also inline i.e $z=x+y$
+
+### Headings: third level
+
+Another paragraph. 
+
+
+# Examples of citations, figures, tables, references
+\label{sec:others}
+
+You can insert references. Here is some text [@kour2014real; @kour2014fast] and see @hadash2018estimate.
+
+The documentation for \verb+natbib+ may be found at
+
+You can use custom blocks with LaTeX support from **rmarkdown** to create environment.
+
+::: {.center latex=true}
+  <http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}>
+:::
+
+Of note is the command \verb+\citet+, which produces citations
+appropriate for use in inline text.  
+
+You can insert LaTeX environment directly too.
+
+\begin{verbatim}
+   \citet{hasselmo} investigated\dots
+\end{verbatim}
+
+produces
+
+\begin{quote}
+  Hasselmo, et al.\ (1995) investigated\dots
+\end{quote}
+
+\begin{center}
+  \url{https://www.ctan.org/pkg/booktabs}
+\end{center}
+
+
+## Figures
+
+You can insert figure using LaTeX directly. 
+
+See Figure \ref{fig:fig1}. Here is how you add footnotes. [^Sample of the first footnote.]
+
+\begin{figure}
+  \centering
+  \fbox{\rule[-.5cm]{4cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
+  \caption{Sample figure caption.}
+  \label{fig:fig1}
+\end{figure}
+
+But you can also do that using R.
+
+```{r fig2, fig.cap = "Another sample figure"}
+plot(mtcars$mpg)
+```
+
+You can use **bookdown** to allow references for Tables and Figures.
+
+
+## Tables
+
+Below we can see how to use tables. 
+
+
+$$\mu = x_m^2$$
+
+## Vector Secuencias 
+
+```{r}
+start_time <- Sys.time()
+A <- 0
+for (i in 1:50000) { A[i] <- (i*2)}
+tail (A)
+end_time <- Sys.time()
+end_time - start_time
+
+start_time <- Sys.time()
+A <- seq(from = 2, by = 2, length.out = 50000)
+tail(A)
+end_time <- Sys.time()
+end_time - start_time
+
+```
+
+## Fibonacci
+
+$$ f_o = 0 $$
+$$ f_1 = 1 $$
+$$ f_{n+1} = f_n + f_{n-1} $$
+
+
+
+```{r}
+fibonacci <- c(0, 1)
+while (tail(fibonacci, 1) <= 1000000) {
+  next_term <- tail(fibonacci, 1) + tail(fibonacci, 2)
+  fibonacci <- c(fibonacci, next_term)
+}
+fibonacci <- fibonacci[-length(fibonacci)]  # Retirer le dernier terme excédant 100000
+print(fibonacci)
+```
+
+## Orden de un vector por método burbuja 
+
+```{r}
+library(microbenchmark)
+set.seed(123) # Fija la semilla para reproducibilidad
+sample_data <- sample(1:100, 10)
+
+bubble_sort <- function(x) {
+  n <- length(x)
+  for (i in 1:(n - 1)) {
+    for (j in 1:(n - i)) {
+      if (x[j] > x[j + 1]) {
+        temp <- x[j]
+        x[j] <- x[j + 1]
+        x[j + 1] <- temp
+      }
+    }
+  }
+  return(x)
+}
+
+results <- microbenchmark(
+  bubble_sort(sample_data),  # Método de la burbuja
+  sort(sample_data),         # Método sort de R
+  times = 10                 # Número de repeticiones
+)
+
+# Muestra los resultados
+print(results)
+```
+
+
+
+
+
+
+
+
+See awesome Table~\ref{tab:table} which is written directly in LaTeX in source Rmd file.
+
+\begin{table}
+ \caption{Sample table title}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    \multicolumn{2}{c}{Part}                   \\
+    \cmidrule(r){1-2}
+    Name     & Description     & Size ($\mu$m) \\
+    \midrule
+    Dendrite & Input terminal  & $\sim$100     \\
+    Axon     & Output terminal & $\sim$10      \\
+    Soma     & Cell body       & up to $10^6$  \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:table}
+\end{table}
+
+You can also use R code for that.
+
+```{r}
+knitr::kable(head(mtcars), caption = "Head of mtcars table")
+```
+
+
+## Lists
+
+- Item 1
+- Item 2 
+- Item 3
+
+    Código html w3
+
+````{verbatim}
+<html>
+<head>
+Titulo
+</head>
+<h1> Titulo </h1>
+</head>
+</head>
+
+
+````
+
+Tal como señala Rodriguez:
+[rodriguez2020aplicacion] .
